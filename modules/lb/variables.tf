@@ -1,29 +1,20 @@
+# The Load Balancer receives only the worker NIC IDs required for pool membership.
 variable "resource_group_name" {
   type        = string
-  description = "Cluster resource group name"
+  description = "Name of the Azure resource group."
 }
 
 variable "resource_group_location" {
   type        = string
-  description = "Cluster resource group location"
+  description = "Azure region in which to create Load Balancer resources."
 }
 
-variable "vnet_id" {
-  type        = string
-  description = "Cluster virtual network ID"
-}
-
-variable "worker_count" {
-  type        = number
-  description = "Number of Workers machines to deploy"
-}
-
-variable "nic_workers" {
-  type        = any
-  description = "Worker nodes network interfaces"
+variable "worker_nic_ids" {
+  type        = list(string)
+  description = "Resource IDs of worker network interfaces attached to the backend pool."
 }
 
 variable "tags" {
   type        = map(string)
-  description = "Tags for deployed resources"
+  description = "Tags applied to Load Balancer resources that support them."
 }

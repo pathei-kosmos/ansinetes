@@ -1,3 +1,4 @@
+# Root wiring expresses the deployment graph through module outputs and resource IDs.
 module "rg" {
   source                  = "./modules/rg"
   resource_group_location = var.resource_group_location
@@ -11,6 +12,7 @@ module "network" {
   resource_group_location = module.rg.resource_group_location
   resource_group_name     = module.rg.resource_group_name
   worker_count            = var.worker_count
+  admin_cidr              = var.admin_cidr
 
   tags = var.tags
 }
@@ -19,11 +21,11 @@ module "machines" {
   source                  = "./modules/machines"
   resource_group_location = module.rg.resource_group_location
   resource_group_name     = module.rg.resource_group_name
-  worker_count            = var.worker_count
-  nic_master_id           = module.network.nic_master_id
-  nic_workers             = module.network.nic_workers
+  jumpbox_nic_id          = module.network.jumpbox_nic_id
+  worker_nic_ids          = module.network.worker_nic_ids
   vm_size                 = var.vm_size
-  vm_password             = var.vm_password
+  admin_username          = var.admin_username
+  admin_ssh_public_key    = var.admin_ssh_public_key
 
   tags = var.tags
 }
@@ -32,9 +34,7 @@ module "lb" {
   source                  = "./modules/lb"
   resource_group_location = module.rg.resource_group_location
   resource_group_name     = module.rg.resource_group_name
-  worker_count            = var.worker_count
-  vnet_id                 = module.network.vnet_id
-  nic_workers             = module.network.nic_workers
+  worker_nic_ids          = module.network.worker_nic_ids
 
   tags = var.tags
 }

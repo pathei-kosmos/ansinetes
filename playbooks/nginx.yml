@@ -1,20 +1,38 @@
 ---
-- name: Installing and starting Nginx on Ubuntu
-  hosts: all
-  become: yes
-  
-  tasks:
-    - name: Updating package list
-      apt:
-        update_cache: yes
+# Ansible owns all guest configuration after Terraform has created the VMs.
+- name: Configure private nginx workers
+  hosts: workers
+  become: true
 
-    - name: Installing Nginx
-      apt:
+  tasks:
+    - name: Refresh the apt package cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install nginx
+      ansible.builtin.apt:
         name: nginx
         state: present
+      notify: Reload nginx
 
-    - name: Starting the Nginx service
-      service:
+    - name: Deploy the backend identity page
+      ansible.builtin.template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Reload nginx
+
+    - name: Enable and start nginx
+      ansible.builtin.service:
         name: nginx
+        enabled: true
         state: started
-        enabled: yes
+
+  handlers:
+    - name: Reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded

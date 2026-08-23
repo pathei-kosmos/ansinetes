@@ -1,40 +1,40 @@
+# Machine inputs contain only infrastructure references and public SSH material.
 variable "resource_group_name" {
   type        = string
-  description = "Cluster resource group name"
+  description = "Name of the Azure resource group."
 }
 
 variable "resource_group_location" {
   type        = string
-  description = "Cluster resource group location"
-}
-
-variable "worker_count" {
-  type        = number
-  description = "Number of Workers machines to deploy"
+  description = "Azure region in which to create the virtual machines."
 }
 
 variable "vm_size" {
   type        = string
-  description = "Virtual machine SKU to be used for cluster nodes"
+  description = "Azure VM size used for the jumpbox and workers."
 }
 
-variable "vm_password" {
+variable "admin_username" {
   type        = string
-  sensitive   = true
-  description = "Machine administrator account password"
+  description = "Administrator username configured on every VM."
 }
 
-variable "nic_master_id" {
+variable "admin_ssh_public_key" {
   type        = string
-  description = "Master node network interface ID"
+  description = "Existing OpenSSH public key configured on every VM."
 }
 
-variable "nic_workers" {
-  type        = any
-  description = "Worker nodes network interfaces"
+variable "jumpbox_nic_id" {
+  type        = string
+  description = "Resource ID of the jumpbox network interface."
+}
+
+variable "worker_nic_ids" {
+  type        = list(string)
+  description = "Resource IDs of private worker network interfaces."
 }
 
 variable "tags" {
   type        = map(string)
-  description = "Tags for deployed resources"
+  description = "Tags applied to the virtual machines."
 }

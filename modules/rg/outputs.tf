@@ -1,7 +1,9 @@
 output "resource_group_location" {
-  value = azurerm_resource_group.rg.location
+  description = "Azure region of the resource group."
+  value       = azurerm_resource_group.rg.location
 }
 
 output "resource_group_name" {
-  value = azurerm_resource_group.rg.name
+  description = "Name of the resource group."
+  value       = azurerm_resource_group.rg.name
 }
