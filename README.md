@@ -26,13 +26,13 @@ Infrastructure is provisioned using [Terraform](https://www.terraform.io/), then
 
 The workers only have private IP addresses. The jumpbox is the only virtual machine exposed for SSH access. The load balancer also provides outbound connectivity to the workers.
 
-# 🔧 Requirements
+## 🔧 Requirements
 
 * [Terraform](https://developer.hashicorp.com/terraform/install)
 * [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 * [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-# 🛠️ Setup
+## 🛠️ Setup
 
 Clone the repo:
 
@@ -47,7 +47,7 @@ Initialize the Terraform project:
 terraform init
 ```
 
-# 🚀 Usage
+## 🚀 Usage
 
 Start by connecting Azure CLI to the Azure subscription you want to use for deployment:
 
@@ -107,7 +107,7 @@ If your SSH key is not automatically detected, specify it manually:
 ansible-playbook -i playbooks/inventory.ini playbooks/nginx.yml --private-key ~/.ssh/id_ed25519
 ```
 
-# 🧪 Verification
+## 🧪 Verification
 
 The public IP address of the load balancer can be retrieved with:
 
@@ -123,7 +123,7 @@ curl "http://$(terraform output -raw load_balancer_ip)"
 
 Each worker serves a page containing its hostname.
 
-# 🧹 Cleanup
+## 🧹 Cleanup
 
 To delete the deployed resources:
 
