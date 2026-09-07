@@ -6,23 +6,7 @@
 
 Infrastructure is provisioned using [Terraform](https://www.terraform.io/), then the private machines are configured using [Ansible](https://www.ansible.com/) through a jumpbox.
 
-```text
-                  Internet
-                     |
-                     v
-            Azure Load Balancer
-                     |
-          +----------+----------+
-          |          |          |
-       worker-0   worker-1   worker-2
-          ^          ^          ^
-          +----------+----------+
-                     |
-                  jumpbox
-                     ^
-                     |
-              Ansible / SSH
-```
+![Simplified diagram of the architecture](./static/ansinetes.png)
 
 The workers only have private IP addresses. The jumpbox is the only virtual machine exposed for SSH access. The load balancer also provides outbound connectivity to the workers.
 
